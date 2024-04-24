@@ -1,0 +1,47 @@
+.testimonial-img {
+    width: 150px; /* Adjust the image width as needed */
+  }
+  
+  .testimonial-section {
+    padding: 50px 0;
+  }
+  
+  .testimonial-section h2,
+  .testimonial-section p {
+    color: #333;
+    text-align: left;
+  }
+  
+  .carousel-item {
+    text-align: center;
+  }
+
+  .circular-image {
+    border-radius: 50%;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif; /* Change to your desired font family */
+  }
+
+  .welcome-section, .testimonial-section, .workers-section, .companies-section{
+    margin-top: 80px !important;
+  }
+
+  .navbar {
+    background-color: #007bff !important; /* Blue color */
+  }
+  
+  footer {
+    background-color: #007bff !important; /* Blue color */
+    color: white;
+  }
+
+ .navbar-nav .nav-link {
+    color: #ffffff !important; /* White color */
+}
+
+.nav-link{
+    margin-right: 20px;
+}
+ 
