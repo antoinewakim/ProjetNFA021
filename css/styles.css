@@ -1,5 +1,5 @@
 .testimonial-img {
-    width: 150px; /* Adjust the image width as needed */
+    width: 150px;
   }
   
   .testimonial-section {
@@ -21,24 +21,24 @@
   }
   
   body {
-    font-family: 'Roboto', sans-serif; /* Change to your desired font family */
+    font-family: 'Roboto', sans-serif;
   }
 
-  .welcome-section, .testimonial-section, .workers-section, .companies-section{
+  .welcome-section, .testimonial-section, .workers-section, .companies-section, .contact-section, .about-us-section{
     margin-top: 80px !important;
   }
 
   .navbar {
-    background-color: #007bff !important; /* Blue color */
+    background-color: #007bff !important;
   }
   
   footer {
-    background-color: #007bff !important; /* Blue color */
+    background-color: #007bff !important;
     color: white;
   }
 
  .navbar-nav .nav-link {
-    color: #ffffff !important; /* White color */
+    color: #ffffff !important;
 }
 
 .nav-link{
