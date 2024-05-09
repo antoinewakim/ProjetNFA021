@@ -38,6 +38,11 @@
     .card {
       background-color: #343a40; /* Dark card background color */
     }
+
+    .card-body {
+      height: 200px; /* Dark card background color */
+    }
+
     .join-us-now {
       background-color: #4e54c8; /* Blue background color */
       padding: 30px;
@@ -77,6 +82,14 @@
       color: #ffffff; /* Light text color */
     }
 
+    .hover-effect {
+      transition: all 0.3s ease;
+    }
+
+    .hover-effect:hover {
+      transform: scale(1.1);
+    }
+
     @-webkit-keyframes GradientAnimation {
       0% {
         background-position: 0% 50%;
@@ -109,9 +122,6 @@
           <a class="nav-link" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Jobs</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
         <li class="nav-item">
@@ -130,35 +140,31 @@
   <p class="lead">Find your dream job today!</p>
   <hr class="my-4">
   <p>Start your career journey now.</p>
-  <a class="btn btn-primary btn-lg" href="#" role="button">Browse Jobs</a>
 </div>
 
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <div class="card mb-4">
+      <div class="card mb-4 hover-effect">
         <div class="card-body">
-          <h5 class="card-title">Search Jobs</h5>
-          <p class="card-text">Find job openings that match your skills and interests.</p>
-          <a href="#" class="btn btn-primary">Search Now</a>
+          <h5 class="card-title">For Employees</h5>
+          <p class="card-text">JobHub provides a streamlined platform for job seekers to explore diverse employment opportunities and find roles that match their skills and career goals efficiently.</p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card mb-4">
+      <div class="card mb-4 hover-effect">
         <div class="card-body">
-          <h5 class="card-title">Post a Job</h5>
-          <p class="card-text">Hiring? Post your job openings and reach qualified candidates.</p>
-          <a href="#" class="btn btn-primary">Post Now</a>
+          <h5 class="card-title">For Companies</h5>
+          <p class="card-text">JobHub offers businesses a comprehensive solution to attract top talent, manage job postings effectively, and streamline the hiring process to build high-performing teams.</p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card mb-4">
+      <div class="card mb-4 hover-effect">
         <div class="card-body">
-          <h5 class="card-title">Build Your Profile</h5>
-          <p class="card-text">Create a professional profile to showcase your skills and experience.</p>
-          <a href="#" class="btn btn-primary">Get Started</a>
+          <h5 class="card-title">For Both</h5>
+          <p class="card-text">JobHub serves as a central hub where employers and job seekers converge, facilitating meaningful connections and empowering individuals and companies to succeed in the dynamic job market.</p>
         </div>
       </div>
     </div>
