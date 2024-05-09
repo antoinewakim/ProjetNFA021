@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Listings - JobHub</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #202124; /* Dark background color */
+      color: #ffffff; /* Light text color */
+    }
+    .navbar {
+      background-color: #292b2c !important; /* Dark navbar background color */
+    }
+    .navbar-brand {
+      color: #ffffff; /* Light text color */
+      font-weight: bold;
+    }
+    .navbar-nav .nav-link {
+      color: #ffffff !important; /* Light text color */
+      font-weight: bold;
+    }
+    .navbar-nav .nav-link:hover {
+      color: #f8f9fa !important; /* Lighter text color on hover */
+    }
+    .company-card {
+      background-color: #343a40; /* Dark card background color */
+      color: #ffffff; /* Light text color */
+      border-radius: 10px; /* Rounded corners */
+      padding: 20px; /* Padding */
+      margin-bottom: 20px; /* Margin bottom */
+    }
+    .company-card .btn {
+      margin-top: 10px; /* Margin top for buttons */
+    }
+    .pending-jobs {
+      background-color: #343a40; /* Dark background color */
+      color: #ffffff; /* Light text color */
+      border-radius: 10px; /* Rounded corners */
+      padding: 20px; /* Padding */
+      margin-bottom: 20px; /* Margin bottom */
+    }
+    .pending-jobs .pending-company {
+      background-color: #4e54c8; /* Blue background color for pending companies */
+      margin-bottom: 20px; /* Margin bottom */
+    }
+    .pending-jobs .pending-company .cancel-btn {
+      background-color: #ffffff; /* White background for buttons */
+      color: #4e54c8; /* Blue text color */
+      border: none; /* No border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 5px 10px; /* Padding */
+      margin-top: 5px; /* Margin top for buttons */
+      cursor: pointer; /* Cursor on hover */
+    }
+    .pending-jobs .pending-company .cancel-btn:hover {
+      background-color: #8f94fb; /* Lighter blue on hover */
+      color: #ffffff; /* Light text color on hover */
+    }
+    /* Add top margin to the container */
+    .filter-options {
+      margin-bottom: 20px; /* Margin bottom for filter options */
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">JobHub</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" style="margin-top: 10px;">
+  <div class="row">
+    <div class="col-md-9">
+      <!-- Main Content: Company Listings -->
+      <div class="row company-listings">
+        <!-- Company 1 -->
+        <div class="col-md-4">
+          <div class="company-card" id="company1">
+            <h5>Company 1</h5>
+            <h5>(Marketing)</h5>
+            <p>Description of Company 1.</p>
+            <p>Location: Location 1</p>
+            <button class="btn btn-success apply">Apply</button>
+          </div>
+        </div>
+        <!-- Company 2 -->
+        <div class="col-md-4">
+          <div class="company-card" id="company2">
+            <h5>Company 2</h5>
+            <h5>(Engineering)</h5>
+            <p>Description of Company 2.</p>
+            <p>Location: Location 2</p>
+            <button class="btn btn-success apply">Apply</button>
+          </div>
+        </div>
+        <!-- Company 3 -->
+        <div class="col-md-4">
+          <div class="company-card" id="company3">
+            <h5>Company 3</h5>
+            <h5>(HR)</h5>
+            <p>Description of Company 3.</p>
+            <p>Location: Location 3</p>
+            <button class="btn btn-success apply">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- Pending Jobs -->
+      <div class="pending-jobs">
+        <h5>Pending Jobs</h5>
+        <!-- Placeholder for pending jobs -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '.apply', function() {
+      var companyCard = $(this).closest('.company-card');
+      var companyId = companyCard.attr('id');
+      var pendingJobs = $('.pending-jobs');
+
+      companyCard.find('.apply').replaceWith('<button class="btn btn-danger cancel-btn" data-company-id="' + companyId + '">Cancel</button>');
+      pendingJobs.append(companyCard.clone().addClass('pending-company'));
+    });
+
+    $(document).on('click', '.cancel-btn', function() {
+      var companyId = $(this).data('company-id');
+      var originalCompanyCard = $('#' + companyId);
+      var pendingCompanyCard = $('.pending-company#' + companyId);
+
+      originalCompanyCard.find('.cancel-btn').replaceWith('<button class="btn btn-success apply">Apply</button>');
+      pendingCompanyCard.remove();
+    });
+  });
+</script>
+</body>
+</html>
