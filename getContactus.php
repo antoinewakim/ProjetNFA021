@@ -1,19 +1,19 @@
 <?php
-// Database configuration
+
 $servername = "localhost";
 $username = "root";
 $password = ""; // default password is empty for XAMPP
 $database = "jobhub"; // your database name
 
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Prepare SQL statement to select data
+
 $sql = "SELECT Name, Email, Message, PhoneNumber FROM contactus";
 $result = $conn->query($sql);
 
