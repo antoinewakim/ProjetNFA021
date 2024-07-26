@@ -1,9 +1,24 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "jobhub");
-if ($con == false) {
-    die("Connection Error" . mysqli_connect_error());
+// Start the session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: login.php");
+    exit();
 }
 
+// Connect to the database
+$con = mysqli_connect("localhost", "root", "", "jobhub");
+if ($con == false) {
+    die("Connection Error: " . mysqli_connect_error());
+}
+
+// Retrieve user details
+$user_id = $_SESSION["id"];
+$user_name = $_SESSION["name"]; // Assuming the user's name is stored in the session
+
+// Handle form submission
 if (isset($_POST['submit'])) {
     $comp_name = mysqli_real_escape_string($con, $_POST['comp_name']);
     $comp_location = mysqli_real_escape_string($con, $_POST['comp_location']);
@@ -13,16 +28,24 @@ if (isset($_POST['submit'])) {
     $job_experience = mysqli_real_escape_string($con, $_POST['job_experience']);
     $job_employmenttype = mysqli_real_escape_string($con, $_POST['job_employmenttype']);
     
+    // Handle file upload
     $comp_image = $_FILES['comp_image']['name'];
     $target_dir = "imgs/";
     $target_file = $target_dir . basename($comp_image);
-  
-    $query = "INSERT INTO jobs (comp_name, comp_location, comp_description, job_summary, job_type, job_experience, job_employmenttype, comp_image) VALUES ('$comp_name', '$comp_location', '$comp_description', '$job_summary', '$job_type', '$job_experience', '$job_employmenttype', '$comp_image')";
+    
+    if (move_uploaded_file($_FILES['comp_image']['tmp_name'], $target_file)) {
+        // File upload successful
+        $query = "INSERT INTO jobs (comp_name, comp_location, comp_description, job_summary, job_type, job_experience, job_employmenttype, comp_image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("ssssssssi", $comp_name, $comp_location, $comp_description, $job_summary, $job_type, $job_experience, $job_employmenttype, $comp_image, $user_id);
 
-    if (mysqli_query($con, $query)) {
-        echo "<script>alert('Data inserted successfully')</script>";
+        if ($stmt->execute()) {
+            echo "<script>alert('Data inserted successfully'); window.location.href='home-user.php';</script>";
+        } else {
+            echo "<script>alert('Error: " . $stmt->error . "');</script>";
+        }
     } else {
-        echo "<script>alert('Error: " . mysqli_error($con) . "')</script>";
+        echo "<script>alert('Error uploading file.');</script>";
     }
 }
 ?>
@@ -42,7 +65,9 @@ if (isset($_POST['submit'])) {
     <div class="container p-1">
     <nav class="navbar navbar-expand-sm" style="font-weight: 500;">
       <div class="container-fluid">
-        <a class="navbar-brand text-primary" href="home-user.php">JobHub</a>
+      <a class="navbar-brand text-primary" href="home-user.php">
+                <img src="imgs/JobHubLogo.png" alt="JobHub Logo" style="height: 80px;">
+                </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -52,9 +77,10 @@ if (isset($_POST['submit'])) {
               <a class="nav-link" href="jobs.html">Jobs</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">User</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><?php echo htmlspecialchars($user_name); ?></a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="managepost.php">Manage Posts</a></li>
                 <li><a class="dropdown-item" href="logout.php">Sign Out</a></li>
               </ul>
             </li>
@@ -71,17 +97,17 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="container bg-white rounded-3 p-2" style="width: 400px; padding-bottom: 20px !important;">
           <div class="mt-2">Company Name <span class="text-primary">*</span></div>
-          <input name="comp_name" type="text" class="form-control">
+          <input name="comp_name" type="text" class="form-control" required>
           <div class="mt-2">Location <span class="text-primary">*</span></div>
-          <input name="comp_location"  type="text" class="form-control">
+          <input name="comp_location"  type="text" class="form-control" required>
           <div class="mt-2">Company Logo <span class="text-primary">*</span></div>
-          <input type="file" name="comp_image" class="form-control" accept="image/*">
+          <input type="file" name="comp_image" class="form-control" accept="image/*" required>
           <div class="mt-2">Company Description <span class="text-primary">*</span></div>
-          <textarea name="comp_description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea name="comp_description" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
           <div class="mt-2">Job Summary <span class="text-primary">*</span></div>
-          <textarea name="job_summary" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea name="job_summary" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
           <div class="mt-2">Job Type <span class="text-primary">*</span></div>
-          <select name="job_type" class="form-select">
+          <select name="job_type" class="form-select" required>
             <option>Marketing</option>
             <option>Public Administration</option>
             <option>Healthcare</option>
@@ -91,7 +117,7 @@ if (isset($_POST['submit'])) {
             <option>HR Management</option>
           </select>
           <div class="mt-2">Experience level <span class="text-primary">*</span></div>
-          <select name="job_experience" class="form-select">
+          <select name="job_experience" class="form-select" required>
             <option>Entry Level</option>
             <option>Intership</option>
             <option>Associate</option>
@@ -100,7 +126,7 @@ if (isset($_POST['submit'])) {
           </select>
 
           <div class="mt-2">Employment type<span class="text-primary">*</span></div>
-          <select name="job_employmenttype" class="form-select">
+          <select name="job_employmenttype" class="form-select" required>
             <option>Full-time</option>
             <option>Part-time</option>
             <option>Online</option>
